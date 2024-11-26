@@ -1,14 +1,21 @@
-import React, { useState,useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from './CartSlice';
-import './ProductList.css'
 import CartItem from './CartItem';
+import './ProductList.css';
 
 function ProductList() {
-    const [showCart, setShowCart] = useState(false); 
-    const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-    const [addedToCart, setAddedToCart] = useState({}); // Step 1: Use useState hook to track added products
-    const dispatch = useDispatch(); // Initialize dispatch for "Add to Cart" functionality
+  const [showCart, setShowCart] = useState(false);
+  const [addedToCart, setAddedToCart] = useState({});
+  const dispatch = useDispatch();
+
+  // Get cart items from the Redux store
+  const cart = useSelector((state) => state.cart.items);
+
+  // Function to calculate total quantity in the cart
+  const calculateTotalQuantity = () => {
+  return cart ? cart.reduce((total, item) => total + item.quantity, 0) : 0;
+};
 
     const plantsArray = [
         {
@@ -238,73 +245,95 @@ function ProductList() {
     textDecoration: 'none',
    }
 
-   const handleAddToCart = (product) => {
-  dispatch(addItem(product));
-  setAddedToCart((prevState) => ({
-     ...prevState,
-     [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
-   }));
-};
+  const handleAddToCart = (product) => {
+    dispatch(addItem(product));
+    setAddedToCart((prevState) => ({
+      ...prevState,
+      [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
+    }));
+  };
 
-   const handleCartClick = (e) => {
+  const handleCartClick = (e) => {
     e.preventDefault();
-    setShowCart(true); // Set showCart to true when cart icon is clicked
-};
-const handlePlantsClick = (e) => {
-    e.preventDefault();
-    setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
-    setShowCart(false); // Hide the cart when navigating to About Us
-};
+    setShowCart(true);
+  };
 
-   const handleContinueShopping = (e) => {
+  const handlePlantsClick = (e) => {
     e.preventDefault();
     setShowCart(false);
   };
-    
-    return (
-        <div>
-             <div className="navbar" style={styleObj}>
-            <div className="tag">
-               <div className="luxury">
-               <img src="https://cdn.pixabay.com/photo/2020/08/05/13/12/eco-5465432_1280.png" alt="" />
-               <a href="/" style={{textDecoration:'none'}}>
-                        <div>
-                    <h3 style={{color:'white'}}>Paradise Nursery</h3>
-                    <i style={{color:'white'}}>Where Green Meets Serenity</i>
-                    </div>
-                    </a>
-                </div>
-              
-            </div>
-            <div style={styleObjUl}>
-                <div> <a href="#" onClick={(e)=>handlePlantsClick(e)} style={styleA}>Plants</a></div>
-                <div> <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}><h1 className='cart'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68"><rect width="156" height="156" fill="none"></rect><circle cx="80" cy="216" r="12"></circle><circle cx="184" cy="216" r="12"></circle><path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" id="mainIconPathAttribute"></path></svg></h1></a></div>
-            </div>
-        </div>
-        {!showCart? (
-        <div className="product-grid">
-        {plantsArray.map((category, index) => (
-        <div key={index}>
-          <h1><div>{category.category}</div></h1>
-          <div className="product-list">
-            {category.plants.map((plant, plantIndex) => (
-              <div className="product-card" key={plantIndex}>
-                <img className="product-image" src={plant.image} alt={plant.name} />
-                <div className="product-title">{plant.name}</div>
-                <p>{plant.description}</p> {/* Display the plant description */}
-                <p>Cost: {plant.cost}</p> {/* Display the plant cost */}
-                <button className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+
+  const handleContinueShopping = (e) => {
+    e.preventDefault();
+    setShowCart(false);
+  };
+
+  return (
+    <div>
+      <div className="navbar" style={{ backgroundColor: '#4CAF50', color: '#fff', padding: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '20px' }}>
+        <div className="tag">
+          <div className="luxury">
+            <img src="https://cdn.pixabay.com/photo/2020/08/05/13/12/eco-5465432_1280.png" alt="" />
+            <a href="/" style={{ textDecoration: 'none' }}>
+              <div>
+                <h3 style={{ color: 'white' }}>Paradise Nursery</h3>
+                <i style={{ color: 'white' }}>Where Green Meets Serenity</i>
               </div>
-              ))}
+            </a>
           </div>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '1100px' }}>
+          <div> 
+            <a href="#" onClick={handlePlantsClick} style={{ color: 'white', fontSize: '30px', textDecoration: 'none' }}>Plants</a>
+          </div>
+          <div> 
+            <a href="#" onClick={handleCartClick} style={{ color: 'white', fontSize: '30px', textDecoration: 'none' }}>
+              <h1 className='cart'>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68">
+                  <rect width="156" height="156" fill="none"></rect>
+                  <circle cx="80" cy="216" r="12"></circle>
+                  <circle cx="184" cy="216" r="12"></circle>
+                  <path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8"
+                    fill="none" stroke="#faf9f9" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" id="mainIconPathAttribute"></path>
+                </svg>
+                {/* Display the total quantity on the cart icon */}
+                <span className="cart_quantity_count">{calculateTotalQuantity()}</span>
+              </h1>
+            </a>
+          </div>
+        </div>
       </div>
-      ))}
-      </div>
-  ) : (
-    <CartItem onContinueShopping={handleContinueShopping}/>
-  )}
-</div>
-);
+
+      {!showCart ? (
+        <div className="product-grid">
+          {plantsArray.map((category, index) => (
+            <div key={index}>
+              <h1>{category.category}</h1>
+              <div className="product-list">
+                {category.plants.map((plant, plantIndex) => (
+                  <div className="product-card" key={plantIndex}>
+                    <img className="product-image" src={plant.image} alt={plant.name} />
+                    <div className="product-title">{plant.name}</div>
+                    <p>{plant.description}</p> {/* Display the plant description */}
+                    <p>Cost: {plant.cost}</p> {/* Display the plant cost */}
+                    <button
+                      className="product-button"
+                      onClick={() => handleAddToCart(plant)}
+                      disabled={addedToCart[plant.name]}  // This should disable the button once an item is added
+                    >
+                      {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <CartItem onContinueShopping={handleContinueShopping} />
+      )}
+    </div>
+  );
 }
 
 export default ProductList;
