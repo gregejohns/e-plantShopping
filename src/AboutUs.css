@@ -1,33 +1,63 @@
 .about-us-container {
-    width: 1000px;
-    /* margin: 0 auto; */
-    /* padding: 20px; */
-    /* background-color: red; */
-    text-align: justify;
-  }
-  
+  max-width: 1000px; /* Set a maximum width for larger screens */
+  width: 90%; /* Allow it to take up 90% of the screen width */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px; /* Add padding to create space inside the container */
+  text-align: justify; /* Keep the text justified */
+  box-sizing: border-box; /* Include padding and borders within the width */
+  overflow: hidden; /* Ensure that no content spills outside */
+}
+
+.about-us-heading {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center; /* Align the heading in the center */
+  padding-left: 20px; /* Add padding to prevent left-side overflow */
+  padding-right: 20px; /* Add padding to prevent right-side overflow */
+}
+
+.about-us-description {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 30px;
+  text-align: center; /* Make sure the description is also centered */
+  padding-left: 20px; /* Add padding to keep the text away from the edges */
+  padding-right: 20px; /* Add padding to keep the text away from the edges */
+}
+
+.about-us-content {
+  font-size: 18px;
+  margin-bottom: 20px;
+  padding-left: 20px; /* Adds some padding to prevent left-side overflow */
+  padding-right: 20px; /* Adds some padding to prevent right-side overflow */
+}
+
+.plant_logo_right {
+  text-align: right;
+  padding-right: 20px; /* Adds padding to prevent elements from being too close to the edge */
+}
+
+.plant_logo_left {
+  text-align: left;
+  padding-left: 20px; /* Adds padding to keep the logo from going too far left */
+}
+
+/* Add responsiveness for smaller devices */
+@media (max-width: 768px) {
   .about-us-heading {
-    font-size: 32px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .about-us-description {
-    font-size: 18px;
-    color: #666;
-    margin-bottom: 30px;
-    text-align: center;
-  }
-  
-  .about-us-content {
-    font-size: 18px;
-    margin-bottom: 20px;
-  }
-  .plant_logo_right{
-    text-align: right;
+    font-size: 28px; /* Reduce font size for smaller devices */
   }
 
-  .plant_logo_left{
-    text-align: left;
+  .about-us-description,
+  .about-us-content {
+    font-size: 16px; /* Adjust the font size for readability */
+    padding-left: 10px; /* Reduce padding on smaller screens */
+    padding-right: 10px; /* Reduce padding on smaller screens */
   }
+
+  .about-us-container {
+    padding: 15px; /* Reduce padding on smaller devices */
+  }
+}
