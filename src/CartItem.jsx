@@ -53,7 +53,7 @@ const CartItem = ({ onContinueShopping, updateCartIconQuantity }) => {
   };
 
   const handleCheckoutShopping = () => {
-    alert('Functionality to be added for future reference');
+    alert('Sorry, but we cannot take your money. Check back later!');
   };
 
   // useEffect to update the cart icon quantity
@@ -109,7 +109,7 @@ const CartItem = ({ onContinueShopping, updateCartIconQuantity }) => {
           Continue Shopping
         </button>
         <br />
-        <button className="get-started-button1">Checkout</button>
+        <button className="get-started-button1" onClick={handleCheckoutShopping}>Checkout</button>
       </div>
     </div>
   );
