@@ -263,8 +263,8 @@ function ProductList() {
     setShowCart(false);
   };
 
-  const handleContinueShopping = (e) => {
-    e.preventDefault();
+  const handleContinueShopping = () => {
+    console.log("Continue shopping clicked");
     setShowCart(false);
   };
 
